@@ -7,10 +7,12 @@
 //
 
 import UIKit
+import AVKit
+import MobileCoreServices
 
 @objc public protocol QVideoTrimSliderDelegate: class {
-    func didChangeValue(QVideoTrimSlider: QVideoTrimSlider, startTime: Float64, endTime: Float64)
-    func indicatorDidChangePosition(QVideoTrimSlider: QVideoTrimSlider, position: Float64)
+    func QVideoTrimSlider(QVideoTrimSlider: QVideoTrimSlider, didUpdateVideoLength startTime: Double, endTime: Double)
+    func QVideoTrimSlider(QVideoTrimSlider: QVideoTrimSlider, didUpdateSeekbar position: Double)
     
     @objc optional func sliderGesturesBegan()
     @objc optional func sliderGesturesEnded()
@@ -29,14 +31,14 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
     var endIndicator        = QVideoTrimSliderEndIndicator()
     var topLine             = QVideoTrimSliderBorder()
     var bottomLine          = QVideoTrimSliderBorder()
-    var progressIndicator   = QVideoTrimSliderProgressIndicator()
+    var seekBar   = QVideoTrimSliderSeekBar()
     var draggableView       = UIView()
 
     public var startTimeView       = QVideoTrimSliderTimeView()
     public var endTimeView         = QVideoTrimSliderTimeView()
 
     let thumbnailsManager   = QVideoTrimSliderThumbnailsManager()
-    var duration: Float64   = 0.0
+    public var duration: Double   = 0.0
     var videoURL            = URL(fileURLWithPath: "")
 
     var progressPercentage: CGFloat = 0         // Represented in percentage
@@ -51,11 +53,13 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
     public var minSpace: Float = 1              // In Seconds
     public var maxSpace: Float = 0              // In Seconds
     
-    public var isProgressIndicatorSticky: Bool = false
-    public var isProgressIndicatorDraggable: Bool = true
+    public var isSeekBarSticky: Bool = false
+    public var isSeekBarDraggable: Bool = true
     
     var isUpdatingThumbnails = false
     var isReceivingGesture: Bool = false
+    
+    public var avPlayer: AVPlayer? = nil
     
     public enum ABTimeViewPosition{
         case top
@@ -129,12 +133,12 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
         let progressDrag = UIPanGestureRecognizer(target:self,
                                                   action: #selector(progressDragged(recognizer:)))
 
-        progressIndicator = QVideoTrimSliderProgressIndicator(frame: CGRect(x: 0,
+        seekBar = QVideoTrimSliderSeekBar(frame: CGRect(x: 0,
                                                               y: -topBorderHeight,
                                                               width: 10,
                                                               height: self.frame.size.height + bottomBorderHeight + topBorderHeight))
-        progressIndicator.addGestureRecognizer(progressDrag)
-        self.addSubview(progressIndicator)
+        seekBar.addGestureRecognizer(progressDrag)
+        self.addSubview(seekBar)
 
         // Setup Draggable View
 
@@ -165,19 +169,19 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
 
     // MARK: Public functions
 
-    public func setProgressIndicatorImage(image: UIImage){
-        self.progressIndicator.imageView.image = image
+    public func setSeekBarImage(image: UIImage){
+        self.seekBar.imageView.image = image
     }
 
-    public func hideProgressIndicator(){
-        self.progressIndicator.isHidden = true
+    public func hideSeekBar(){
+        self.seekBar.isHidden = true
     }
 
-    public func showProgressIndicator(){
-        self.progressIndicator.isHidden = false
+    public func showSeekBar(){
+        self.seekBar.isHidden = false
     }
 
-    public func updateProgressIndicator(seconds: Float64){
+    public func updateSeekBar(seconds: Double){
         if !isReceivingGesture {
             let endSeconds = secondsFromValue(value: self.endPercentage)
             
@@ -208,7 +212,12 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
         self.startTimeView = view
         self.endTimeView = view
     }
-
+    
+    func didUpdateSeekBar(progress: Double) {
+        self.delegate?.QVideoTrimSlider(QVideoTrimSlider: self, didUpdateSeekbar: progress)
+        self.avPlayer?.seek(to: CMTimeMake(value: Int64(progress), timescale: 1))
+    }
+    
     public func setTimeViewPosition(position: ABTimeViewPosition){
         switch position {
         case .top:
@@ -309,12 +318,12 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
         
         currentIndicator.center = CGPoint(x: position , y: currentIndicator.center.y)
         
-		let percentage = currentIndicator.center.x * 100 / self.frame.width
+        let percentage = currentIndicator.center.x * 100 / self.frame.width
         
         let startSeconds = secondsFromValue(value: self.startPercentage)
         let endSeconds = secondsFromValue(value: self.endPercentage)
         
-        self.delegate?.didChangeValue(QVideoTrimSlider: self, startTime: startSeconds, endTime: endSeconds)
+        self.delegate?.QVideoTrimSlider(QVideoTrimSlider: self, didUpdateVideoLength: startSeconds, endTime: endSeconds)
         
         var progressPosition: CGFloat = 0.0
         
@@ -335,12 +344,12 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
             }
         }
         
-        progressIndicator.center = CGPoint(x: progressPosition , y: progressIndicator.center.y)
-        let progressPercentage = progressIndicator.center.x * 100 / self.frame.width
+        seekBar.center = CGPoint(x: progressPosition , y: seekBar.center.y)
+        let progressPercentage = seekBar.center.x * 100 / self.frame.width
         
         if self.progressPercentage != progressPercentage {
             let progressSeconds = secondsFromValue(value: progressPercentage)
-            self.delegate?.indicatorDidChangePosition(QVideoTrimSlider: self, position: progressSeconds)
+            self.didUpdateSeekBar(progress: progressSeconds)
         }
         
         self.progressPercentage = progressPercentage
@@ -348,8 +357,8 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
         layoutSubviews()
     }
     
-	@objc func progressDragged(recognizer: UIPanGestureRecognizer){
-        if !isProgressIndicatorDraggable {
+    @objc func progressDragged(recognizer: UIPanGestureRecognizer){
+        if !isSeekBarDraggable {
             return
         }
         
@@ -373,20 +382,20 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
 
         recognizer.setTranslation(CGPoint.zero, in: self)
 
-        progressIndicator.center = CGPoint(x: position , y: progressIndicator.center.y)
+        seekBar.center = CGPoint(x: position , y: seekBar.center.y)
 
-        let percentage = progressIndicator.center.x * 100 / self.frame.width
+        let percentage = seekBar.center.x * 100 / self.frame.width
 
         let progressSeconds = secondsFromValue(value: progressPercentage)
 
-        self.delegate?.indicatorDidChangePosition(QVideoTrimSlider: self, position: progressSeconds)
+        self.didUpdateSeekBar(progress: progressSeconds)
 
         self.progressPercentage = percentage
 
         layoutSubviews()
     }
 
-	@objc func viewDragged(recognizer: UIPanGestureRecognizer){
+    @objc func viewDragged(recognizer: UIPanGestureRecognizer){
         updateGestureStatus(recognizer: recognizer)
         
         let translation = recognizer.translation(in: self)
@@ -413,22 +422,17 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
 
         recognizer.setTranslation(CGPoint.zero, in: self)
 
-        progressIndicator.center = CGPoint(x: progressPosition , y: progressIndicator.center.y)
+        seekBar.center = CGPoint(x: progressPosition , y: seekBar.center.y)
         startIndicator.center = CGPoint(x: startPosition , y: startIndicator.center.y)
         endIndicator.center = CGPoint(x: endPosition , y: endIndicator.center.y)
 
         let startPercentage = startIndicator.center.x * 100 / self.frame.width
         let endPercentage = endIndicator.center.x * 100 / self.frame.width
-        let progressPercentage = progressIndicator.center.x * 100 / self.frame.width
-
-        let startSeconds = secondsFromValue(value: startPercentage)
-        let endSeconds = secondsFromValue(value: endPercentage)
-
-        self.delegate?.didChangeValue(QVideoTrimSlider: self, startTime: startSeconds, endTime: endSeconds)
+        let progressPercentage = seekBar.center.x * 100 / self.frame.width
 
         if self.progressPercentage != progressPercentage{
             let progressSeconds = secondsFromValue(value: progressPercentage)
-            self.delegate?.indicatorDidChangePosition(QVideoTrimSlider: self, position: progressSeconds)
+            self.didUpdateSeekBar(progress: progressSeconds)
         }
 
         self.startPercentage = startPercentage
@@ -480,8 +484,8 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
         return position
     }
     
-    private func secondsFromValue(value: CGFloat) -> Float64{
-        return duration * Float64((value / 100))
+    private func secondsFromValue(value: CGFloat) -> Double{
+        return duration * Double((value / 100))
     }
 
     private func valueFromSeconds(seconds: Float) -> CGFloat{
@@ -504,10 +508,10 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
     private func resetProgressPosition() {
         self.progressPercentage = self.startPercentage
         let progressPosition = positionFromValue(value: self.progressPercentage)
-        progressIndicator.center = CGPoint(x: progressPosition , y: progressIndicator.center.y)
+        seekBar.center = CGPoint(x: progressPosition , y: seekBar.center.y)
         
         let startSeconds = secondsFromValue(value: self.progressPercentage)
-        self.delegate?.indicatorDidChangePosition(QVideoTrimSlider: self, position: startSeconds)
+        self.didUpdateSeekBar(progress: startSeconds)
     }
 
     // MARK: -
@@ -524,7 +528,7 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
 
         startIndicator.center = CGPoint(x: startPosition, y: startIndicator.center.y)
         endIndicator.center = CGPoint(x: endPosition, y: endIndicator.center.y)
-        progressIndicator.center = CGPoint(x: progressPosition, y: progressIndicator.center.y)
+        seekBar.center = CGPoint(x: progressPosition, y: seekBar.center.y)
         draggableView.frame = CGRect(x: startIndicator.frame.origin.x + startIndicator.frame.size.width,
                                      y: 0,
                                      width: endIndicator.frame.origin.x - startIndicator.frame.origin.x - endIndicator.frame.size.width,
@@ -556,7 +560,7 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
     }
 
 
-    private func secondsToFormattedString(totalSeconds: Float64) -> String{
+    private func secondsToFormattedString(totalSeconds: Double) -> String{
         let hours:Int = Int(totalSeconds.truncatingRemainder(dividingBy: 86400) / 3600)
         let minutes:Int = Int(totalSeconds.truncatingRemainder(dividingBy: 3600) / 60)
         let seconds:Int = Int(totalSeconds.truncatingRemainder(dividingBy: 60))
@@ -570,5 +574,60 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
 
     deinit {
       // removeObserver(self, forKeyPath: "bounds")
+    }
+    
+    public func trimVideo(url: URL, statTime:Double, endTime:Double, completion: @escaping (URL?, Error?) -> ())
+    {
+        let manager = FileManager.default
+
+        guard let documentDirectory = try? manager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true) else {return}
+        let mediaType = "mp4"
+
+        if mediaType == kUTTypeMovie as String || mediaType == "mp4" as String {
+            let asset = AVAsset(url: url)
+            let length = Double(asset.duration.value) / Double(asset.duration.timescale)
+            print("video length: \(length) seconds")
+
+            let start = statTime
+            let end = endTime
+
+            var outputURL = documentDirectory.appendingPathComponent("output")
+            
+            do {
+                try manager.createDirectory(at: outputURL, withIntermediateDirectories: true, attributes: nil)
+                let name = UUID().uuidString
+                outputURL = outputURL.appendingPathComponent("\(name).mp4")
+            } catch let error {
+                debugPrint(error)
+            }
+
+            //Remove existing file
+            _ = try? manager.removeItem(at: outputURL)
+
+
+            guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetHighestQuality) else {return}
+            exportSession.outputURL = outputURL
+            exportSession.outputFileType = AVFileType.mp4
+
+            let startTime = CMTime(seconds: Double(start), preferredTimescale: 1000)
+            let endTime = CMTime(seconds: Double(end), preferredTimescale: 1000)
+            let timeRange = CMTimeRange(start: startTime, end: endTime)
+
+            exportSession.timeRange = timeRange
+            exportSession.exportAsynchronously {
+                switch exportSession.status {
+                    case .completed:
+                        debugPrint("exported at \(outputURL)")
+                        completion(outputURL, nil)
+                    case .failed:
+                        debugPrint("failed \(exportSession.error.debugDescription)")
+                        completion(nil, exportSession.error)
+                    case .cancelled:
+                        debugPrint("cancelled \(exportSession.error.debugDescription)")
+                        completion(nil, exportSession.error)
+                    default: break
+                }
+            }
+        }
     }
 }

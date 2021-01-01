@@ -1,5 +1,5 @@
 //
-//  QVideoTrimSliderProgressIndicator.swift
+//  QVideoTrimSliderSeekBar.swift
 //  QVideoEditor
 //
 //  Created by Alen Peter on 16/12/2020.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class QVideoTrimSliderProgressIndicator: UIView {
+class QVideoTrimSliderSeekBar: UIView {
     
     var imageView = UIImageView()
     
@@ -16,7 +16,7 @@ class QVideoTrimSliderProgressIndicator: UIView {
         super.init(frame: frame)
         
         let bundle = Bundle(for: QVideoTrimSliderStartIndicator.self)
-        let image = UIImage(named: "ProgressIndicator", in: bundle, compatibleWith: nil)
+        let image = UIImage(named: "SeekBar", in: bundle, compatibleWith: nil)
         imageView.frame = self.bounds
         imageView.image = image
         imageView.contentMode = UIView.ContentMode.scaleToFill

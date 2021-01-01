@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		F7360A54259F2669006739C1 /* QVideoTrimSlider.h in Headers */ = {isa = PBXBuildFile; fileRef = F7360A52259F2669006739C1 /* QVideoTrimSlider.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		F7591DB6259F26EB0018BDC1 /* QVideoTrimSliderBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DAE259F26EB0018BDC1 /* QVideoTrimSliderBorder.swift */; };
-		F7591DB7259F26EB0018BDC1 /* QVideoTrimSliderStartIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DAF259F26EB0018BDC1 /* QVideoTrimSliderStartIndicator.swift */; };
-		F7591DB8259F26EB0018BDC1 /* QVideoTrimSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DB0259F26EB0018BDC1 /* QVideoTrimSlider.swift */; };
-		F7591DB9259F26EB0018BDC1 /* QVideoTrimSliderEndIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DB1259F26EB0018BDC1 /* QVideoTrimSliderEndIndicator.swift */; };
-		F7591DBA259F26EB0018BDC1 /* QVideoTrimSliderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DB2259F26EB0018BDC1 /* QVideoTrimSliderHelper.swift */; };
-		F7591DBB259F26EB0018BDC1 /* QVideoTrimSliderProgressIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DB3259F26EB0018BDC1 /* QVideoTrimSliderProgressIndicator.swift */; };
-		F7591DBC259F26EB0018BDC1 /* QVideoTrimSliderThumbnailsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DB4259F26EB0018BDC1 /* QVideoTrimSliderThumbnailsManager.swift */; };
-		F7591DBD259F26EB0018BDC1 /* QVideoTrimSliderTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7591DB5259F26EB0018BDC1 /* QVideoTrimSliderTimeView.swift */; };
+		F73BA096259F49BB006F74BD /* QVideoTrimSliderStartIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA08E259F49BA006F74BD /* QVideoTrimSliderStartIndicator.swift */; };
+		F73BA097259F49BB006F74BD /* QVideoTrimSliderBorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA08F259F49BA006F74BD /* QVideoTrimSliderBorder.swift */; };
+		F73BA098259F49BB006F74BD /* QVideoTrimSliderHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA090259F49BA006F74BD /* QVideoTrimSliderHelper.swift */; };
+		F73BA099259F49BB006F74BD /* QVideoTrimSliderTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA091259F49BA006F74BD /* QVideoTrimSliderTimeView.swift */; };
+		F73BA09A259F49BB006F74BD /* QVideoTrimSliderEndIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA092259F49BA006F74BD /* QVideoTrimSliderEndIndicator.swift */; };
+		F73BA09B259F49BB006F74BD /* QVideoTrimSliderThumbnailsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA093259F49BA006F74BD /* QVideoTrimSliderThumbnailsManager.swift */; };
+		F73BA09C259F49BB006F74BD /* QVideoTrimSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA094259F49BB006F74BD /* QVideoTrimSlider.swift */; };
+		F73BA09D259F49BB006F74BD /* QVideoTrimSliderSeekBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F73BA095259F49BB006F74BD /* QVideoTrimSliderSeekBar.swift */; };
 		F7591DC0259F26FC0018BDC1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F7591DBF259F26FC0018BDC1 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -23,14 +23,15 @@
 		F7360A4F259F2669006739C1 /* QVideoTrimSlider.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = QVideoTrimSlider.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7360A52259F2669006739C1 /* QVideoTrimSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QVideoTrimSlider.h; sourceTree = "<group>"; };
 		F7360A53259F2669006739C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F7591DAE259F26EB0018BDC1 /* QVideoTrimSliderBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderBorder.swift; sourceTree = "<group>"; };
-		F7591DAF259F26EB0018BDC1 /* QVideoTrimSliderStartIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderStartIndicator.swift; sourceTree = "<group>"; };
-		F7591DB0259F26EB0018BDC1 /* QVideoTrimSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSlider.swift; sourceTree = "<group>"; };
-		F7591DB1259F26EB0018BDC1 /* QVideoTrimSliderEndIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderEndIndicator.swift; sourceTree = "<group>"; };
-		F7591DB2259F26EB0018BDC1 /* QVideoTrimSliderHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderHelper.swift; sourceTree = "<group>"; };
-		F7591DB3259F26EB0018BDC1 /* QVideoTrimSliderProgressIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderProgressIndicator.swift; sourceTree = "<group>"; };
-		F7591DB4259F26EB0018BDC1 /* QVideoTrimSliderThumbnailsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderThumbnailsManager.swift; sourceTree = "<group>"; };
-		F7591DB5259F26EB0018BDC1 /* QVideoTrimSliderTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderTimeView.swift; sourceTree = "<group>"; };
+		F73BA089259F3EF5006F74BD /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F73BA08E259F49BA006F74BD /* QVideoTrimSliderStartIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderStartIndicator.swift; sourceTree = "<group>"; };
+		F73BA08F259F49BA006F74BD /* QVideoTrimSliderBorder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderBorder.swift; sourceTree = "<group>"; };
+		F73BA090259F49BA006F74BD /* QVideoTrimSliderHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderHelper.swift; sourceTree = "<group>"; };
+		F73BA091259F49BA006F74BD /* QVideoTrimSliderTimeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderTimeView.swift; sourceTree = "<group>"; };
+		F73BA092259F49BA006F74BD /* QVideoTrimSliderEndIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderEndIndicator.swift; sourceTree = "<group>"; };
+		F73BA093259F49BA006F74BD /* QVideoTrimSliderThumbnailsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderThumbnailsManager.swift; sourceTree = "<group>"; };
+		F73BA094259F49BB006F74BD /* QVideoTrimSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSlider.swift; sourceTree = "<group>"; };
+		F73BA095259F49BB006F74BD /* QVideoTrimSliderSeekBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QVideoTrimSliderSeekBar.swift; sourceTree = "<group>"; };
 		F7591DBF259F26FC0018BDC1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -48,6 +49,7 @@
 		F7360A45259F2669006739C1 = {
 			isa = PBXGroup;
 			children = (
+				F73BA089259F3EF5006F74BD /* README.md */,
 				F7360A51259F2669006739C1 /* QVideoTrimSlider */,
 				F7360A50259F2669006739C1 /* Products */,
 			);
@@ -64,14 +66,14 @@
 		F7360A51259F2669006739C1 /* QVideoTrimSlider */ = {
 			isa = PBXGroup;
 			children = (
-				F7591DB0259F26EB0018BDC1 /* QVideoTrimSlider.swift */,
-				F7591DAE259F26EB0018BDC1 /* QVideoTrimSliderBorder.swift */,
-				F7591DB1259F26EB0018BDC1 /* QVideoTrimSliderEndIndicator.swift */,
-				F7591DB2259F26EB0018BDC1 /* QVideoTrimSliderHelper.swift */,
-				F7591DB3259F26EB0018BDC1 /* QVideoTrimSliderProgressIndicator.swift */,
-				F7591DAF259F26EB0018BDC1 /* QVideoTrimSliderStartIndicator.swift */,
-				F7591DB4259F26EB0018BDC1 /* QVideoTrimSliderThumbnailsManager.swift */,
-				F7591DB5259F26EB0018BDC1 /* QVideoTrimSliderTimeView.swift */,
+				F73BA094259F49BB006F74BD /* QVideoTrimSlider.swift */,
+				F73BA08F259F49BA006F74BD /* QVideoTrimSliderBorder.swift */,
+				F73BA092259F49BA006F74BD /* QVideoTrimSliderEndIndicator.swift */,
+				F73BA090259F49BA006F74BD /* QVideoTrimSliderHelper.swift */,
+				F73BA095259F49BB006F74BD /* QVideoTrimSliderSeekBar.swift */,
+				F73BA08E259F49BA006F74BD /* QVideoTrimSliderStartIndicator.swift */,
+				F73BA093259F49BA006F74BD /* QVideoTrimSliderThumbnailsManager.swift */,
+				F73BA091259F49BA006F74BD /* QVideoTrimSliderTimeView.swift */,
 				F7360A52259F2669006739C1 /* QVideoTrimSlider.h */,
 				F7591DBF259F26FC0018BDC1 /* Assets.xcassets */,
 				F7360A53259F2669006739C1 /* Info.plist */,
@@ -159,14 +161,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7591DB9259F26EB0018BDC1 /* QVideoTrimSliderEndIndicator.swift in Sources */,
-				F7591DBC259F26EB0018BDC1 /* QVideoTrimSliderThumbnailsManager.swift in Sources */,
-				F7591DBD259F26EB0018BDC1 /* QVideoTrimSliderTimeView.swift in Sources */,
-				F7591DB8259F26EB0018BDC1 /* QVideoTrimSlider.swift in Sources */,
-				F7591DB6259F26EB0018BDC1 /* QVideoTrimSliderBorder.swift in Sources */,
-				F7591DBB259F26EB0018BDC1 /* QVideoTrimSliderProgressIndicator.swift in Sources */,
-				F7591DB7259F26EB0018BDC1 /* QVideoTrimSliderStartIndicator.swift in Sources */,
-				F7591DBA259F26EB0018BDC1 /* QVideoTrimSliderHelper.swift in Sources */,
+				F73BA098259F49BB006F74BD /* QVideoTrimSliderHelper.swift in Sources */,
+				F73BA09B259F49BB006F74BD /* QVideoTrimSliderThumbnailsManager.swift in Sources */,
+				F73BA09A259F49BB006F74BD /* QVideoTrimSliderEndIndicator.swift in Sources */,
+				F73BA097259F49BB006F74BD /* QVideoTrimSliderBorder.swift in Sources */,
+				F73BA09D259F49BB006F74BD /* QVideoTrimSliderSeekBar.swift in Sources */,
+				F73BA099259F49BB006F74BD /* QVideoTrimSliderTimeView.swift in Sources */,
+				F73BA096259F49BB006F74BD /* QVideoTrimSliderStartIndicator.swift in Sources */,
+				F73BA09C259F49BB006F74BD /* QVideoTrimSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
