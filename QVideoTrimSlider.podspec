@@ -27,4 +27,7 @@ Pod::Spec.new do |spec|
   spec.swift_version = "5.0"
   spec.ios.deployment_target = "10.1"
 
+
+  spec.resources  = "QVideoTrimSlider/Assets.xcassets"
+
 end
