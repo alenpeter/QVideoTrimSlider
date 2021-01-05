@@ -50,12 +50,12 @@ class QVideoTrimSliderThumbnailsManager: NSObject {
     private func thumbnailCount(inView: UIView) -> Int {
 		
 		var num : Double = 0;
-		
-		DispatchQueue.main.sync {
-        	num = Double(inView.frame.size.width) / Double(inView.frame.size.height)
-		}
-
-        return Int(ceil(num))
+                
+        DispatchQueue.main.sync {
+            num = Double(inView.frame.size.width) / Double(inView.frame.size.height)
+        }
+        
+        return num.isInfinite || num.isNaN ? 0 : Int(ceil(num))
     }
     
     func updateThumbnails(view: UIView, videoURL: URL, duration: Float64) -> [UIImageView]{
