@@ -53,6 +53,8 @@ open class QVideoTrimSliderTimeView: UIView {
         self.timeLabel = UILabel()
         self.timeLabel.textAlignment = .center
         self.timeLabel.textColor = UIColor.white
+        self.timeLabel.font = UIFont(name: "Helvetica", size: 13)
+        self.backgroundView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 0)
         self.addSubview(self.timeLabel)
 
     }

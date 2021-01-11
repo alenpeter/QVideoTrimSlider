@@ -232,7 +232,9 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
     public func setVideoURL(videoURL: URL){
         self.duration = QVideoTrimSliderVideoHelper.videoDuration(videoURL: videoURL)
         self.videoURL = videoURL
-        self.superview?.layoutSubviews()
+        DispatchQueue.main.async {
+            self.superview?.layoutSubviews()
+        }
         self.updateThumbnails()
     }
 
