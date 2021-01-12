@@ -9,7 +9,7 @@
 Pod::Spec.new do |spec|
 
   spec.name         = "QVideoTrimSlider"
-  spec.version      = "0.0.3"
+  spec.version      = "0.0.4"
   spec.summary      = "Trim Videos"
   spec.description  = "A slider based video trimmer"
 

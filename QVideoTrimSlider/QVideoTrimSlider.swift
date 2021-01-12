@@ -614,20 +614,22 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
             let startTime = CMTime(seconds: Double(start), preferredTimescale: 1000)
             let endTime = CMTime(seconds: Double(end), preferredTimescale: 1000)
             let timeRange = CMTimeRange(start: startTime, end: endTime)
-
+            
             exportSession.timeRange = timeRange
-            exportSession.exportAsynchronously {
-                switch exportSession.status {
-                    case .completed:
-                        debugPrint("exported at \(outputURL)")
-                        completion(outputURL, nil)
-                    case .failed:
-                        debugPrint("failed \(exportSession.error.debugDescription)")
-                        completion(nil, exportSession.error)
-                    case .cancelled:
-                        debugPrint("cancelled \(exportSession.error.debugDescription)")
-                        completion(nil, exportSession.error)
-                    default: break
+            DispatchQueue.main.async {
+                exportSession.exportAsynchronously {
+                    switch exportSession.status {
+                        case .completed:
+                            debugPrint("exported at \(outputURL)")
+                            completion(outputURL, nil)
+                        case .failed:
+                            debugPrint("failed \(exportSession.error.debugDescription)")
+                            completion(nil, exportSession.error)
+                        case .cancelled:
+                            debugPrint("cancelled \(exportSession.error.debugDescription)")
+                            completion(nil, exportSession.error)
+                        default: break
+                    }
                 }
             }
         }
