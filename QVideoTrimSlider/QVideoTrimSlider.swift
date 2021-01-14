@@ -519,37 +519,43 @@ public class QVideoTrimSlider: UIView, UIGestureRecognizerDelegate {
     // MARK: -
 
     override public func layoutSubviews() {
-        super.layoutSubviews()
+        DispatchQueue.main.async {
+            super.layoutSubviews()
+        }
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let self = self else { return }
+            
+            self.startTimeView.timeLabel.text = self.secondsToFormattedString(totalSeconds: self.secondsFromValue(value: self.startPercentage))
+            self.endTimeView.timeLabel.text = self.secondsToFormattedString(totalSeconds: self.secondsFromValue(value: self.endPercentage))
 
-        startTimeView.timeLabel.text = self.secondsToFormattedString(totalSeconds: secondsFromValue(value: self.startPercentage))
-        endTimeView.timeLabel.text = self.secondsToFormattedString(totalSeconds: secondsFromValue(value: self.endPercentage))
+            let startPosition = self.positionFromValue(value: self.startPercentage)
+            let endPosition = self.positionFromValue(value: self.endPercentage)
+            let progressPosition = self.positionFromValue(value: self.progressPercentage)
 
-        let startPosition = positionFromValue(value: self.startPercentage)
-        let endPosition = positionFromValue(value: self.endPercentage)
-        let progressPosition = positionFromValue(value: self.progressPercentage)
-
-        startIndicator.center = CGPoint(x: startPosition, y: startIndicator.center.y)
-        endIndicator.center = CGPoint(x: endPosition, y: endIndicator.center.y)
-        seekBar.center = CGPoint(x: progressPosition, y: seekBar.center.y)
-        draggableView.frame = CGRect(x: startIndicator.frame.origin.x + startIndicator.frame.size.width,
-                                     y: 0,
-                                     width: endIndicator.frame.origin.x - startIndicator.frame.origin.x - endIndicator.frame.size.width,
-                                     height: self.frame.height)
+            self.startIndicator.center = CGPoint(x: startPosition, y: self.startIndicator.center.y)
+            self.endIndicator.center = CGPoint(x: endPosition, y: self.endIndicator.center.y)
+            self.seekBar.center = CGPoint(x: progressPosition, y: self.seekBar.center.y)
+            self.draggableView.frame = CGRect(x: self.startIndicator.frame.origin.x + self.startIndicator.frame.size.width,
+                                         y: 0,
+                                         width: self.endIndicator.frame.origin.x - self.startIndicator.frame.origin.x - self.endIndicator.frame.size.width,
+                                         height: self.frame.height)
 
 
-        topLine.frame = CGRect(x: startIndicator.frame.origin.x + startIndicator.frame.width,
-                               y: -topBorderHeight,
-                               width: endIndicator.frame.origin.x - startIndicator.frame.origin.x - endIndicator.frame.size.width,
-                               height: topBorderHeight)
+            self.topLine.frame = CGRect(x: self.startIndicator.frame.origin.x + self.startIndicator.frame.width,
+                                   y: -self.topBorderHeight,
+                                   width: self.endIndicator.frame.origin.x - self.startIndicator.frame.origin.x - self.endIndicator.frame.size.width,
+                                   height: self.topBorderHeight)
 
-        bottomLine.frame = CGRect(x: startIndicator.frame.origin.x + startIndicator.frame.width,
-                                  y: self.frame.size.height,
-                                  width: endIndicator.frame.origin.x - startIndicator.frame.origin.x - endIndicator.frame.size.width,
-                                  height: bottomBorderHeight)
+            self.bottomLine.frame = CGRect(x: self.startIndicator.frame.origin.x + self.startIndicator.frame.width,
+                                      y: self.frame.size.height,
+                                      width: self.endIndicator.frame.origin.x - self.startIndicator.frame.origin.x - self.endIndicator.frame.size.width,
+                                      height: self.bottomBorderHeight)
 
-        // Update time view
-        startTimeView.center = CGPoint(x: startIndicator.center.x, y: startTimeView.center.y)
-        endTimeView.center = CGPoint(x: endIndicator.center.x, y: endTimeView.center.y)
+            // Update time view
+            self.startTimeView.center = CGPoint(x: self.startIndicator.center.x, y: self.startTimeView.center.y)
+            self.endTimeView.center = CGPoint(x: self.endIndicator.center.x, y: self.endTimeView.center.y)
+        }
     }
 
 
